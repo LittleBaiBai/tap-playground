@@ -1,0 +1,109 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ootb-templates-app-viewer
+  labels:
+    apps.tanzu.vmware.com/aggregate-to-app-viewer: "true"
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["carto.run"]
+  resources: ["deliverables", "runnables"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["conventions.apps.tanzu.vmware.com"]
+  resources: ["podintents"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["kappctrl.k14s.io"]
+  resources: ["apps"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["kpack.io"]
+  resources: ["images"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["scanning.apps.tanzu.vmware.com"]
+  resources: ["imagescans", "sourcescans"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["servicebinding.io"]
+  resources: ["servicebindings"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["services.apps.tanzu.vmware.com"]
+  resources: ["resourceclaims"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["serving.knative.dev"]
+  resources: ["services"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["source.apps.tanzu.vmware.com"]
+  resources: ["imagerepositories", "mavenartifacts"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["source.toolkit.fluxcd.io"]
+  resources: ["gitrepositories"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["tekton.dev"]
+  resources: ["pipelineruns", "taskruns"]
+  verbs: ["get", "list", "watch"]
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ootb-templates-workload
+  labels:
+    apps.tanzu.vmware.com/aggregate-to-workload: "true"
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["carto.run"]
+  resources: ["deliverables", "runnables"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["conventions.apps.tanzu.vmware.com"]
+  resources: ["podintents"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["kpack.io"]
+  resources: ["images"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["scanning.apps.tanzu.vmware.com"]
+  resources: ["imagescans", "sourcescans"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["source.apps.tanzu.vmware.com"]
+  resources: ["imagerepositories", "mavenartifacts"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["source.toolkit.fluxcd.io"]
+  resources: ["gitrepositories"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["tekton.dev"]
+  resources: ["pipelineruns", "taskruns"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["tekton.dev"]
+  resources: ["pipelines"]
+  verbs: ["get", "list", "watch"]
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ootb-templates-deliverable
+  labels:
+    apps.tanzu.vmware.com/aggregate-to-deliverable: "true"
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["kappctrl.k14s.io"]
+  resources: ["apps"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["servicebinding.io"]
+  resources: ["servicebindings"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["services.apps.tanzu.vmware.com"]
+  resources: ["resourceclaims"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["serving.knative.dev"]
+  resources: ["services"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["source.apps.tanzu.vmware.com"]
+  resources: ["imagerepositories", "mavenartifacts"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]
+- apiGroups: ["source.toolkit.fluxcd.io"]
+  resources: ["gitrepositories"]
+  verbs: ["get", "list", "watch", "create", "patch", "update", "delete", "deletecollection"]

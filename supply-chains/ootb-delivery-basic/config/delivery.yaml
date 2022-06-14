@@ -1,0 +1,38 @@
+#@ load("@ytt:data", "data")
+
+---
+apiVersion: carto.run/v1alpha1
+kind: ClusterDelivery
+metadata:
+  name: delivery-basic
+spec:
+  selector:
+    app.tanzu.vmware.com/deliverable-type: web
+
+  #
+  #
+  #     source-provider                  GitRepository|ImageRepository
+  #          <--[src]-- app-deploy       App
+  #
+  #
+
+  resources:
+  - name: source-provider
+    templateRef:
+      kind: ClusterSourceTemplate
+      name: delivery-source-template
+    params:
+    - name: serviceAccount
+      value: #@ data.values.service_account
+    - name: gitImplementation
+      value: #@ data.values.git_implementation
+
+  - name: deployer
+    templateRef:
+      kind: ClusterDeploymentTemplate
+      name: app-deploy
+    params:
+      - name: serviceAccount
+        value: #@ data.values.service_account
+    deployment:
+      resource: source-provider

@@ -1,0 +1,23 @@
+#@ load("@ytt:data", "data")
+
+#@ if/end "kaniko-runtemplate" not in data.values.excluded_templates:
+---
+apiVersion: carto.run/v1alpha1
+kind: ClusterRunTemplate
+metadata:
+  name: kaniko-runtemplate
+spec:
+  outputs:
+    image-ref: .status.taskResults[?(@.name=="image_ref")].value
+  template:
+    apiVersion: tekton.dev/v1beta1
+    kind: TaskRun
+    metadata:
+      generateName: $(runnable.metadata.name)$-
+      labels: $(runnable.metadata.labels)$
+    spec:
+      serviceAccountName: $(runnable.spec.inputs.serviceAccount)$
+      taskRef:
+        name: kaniko-build
+        kind: ClusterTask
+      params: $(runnable.spec.inputs.params)$

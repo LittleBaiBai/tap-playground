@@ -1,0 +1,4 @@
+#@data/values
+---
+excluded_templates: []
+iaas_auth: false

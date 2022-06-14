@@ -1,0 +1,69 @@
+#@ load("@ytt:data", "data")
+
+#@ if/end "delivery-source-template" not in data.values.excluded_templates:
+---
+apiVersion: carto.run/v1alpha1
+kind: ClusterSourceTemplate
+metadata:
+  name: delivery-source-template
+spec:
+  params:
+    - name: serviceAccount
+      default: default
+    - name: gitImplementation
+      default: go-git
+
+  urlPath: .status.artifact.url
+  revisionPath: .status.artifact.revision
+
+  healthRule:
+    singleConditionType: Ready
+
+  ytt: |
+    #@ load("@ytt:data", "data")
+
+    #@ def merge_labels(fixed_values):
+    #@   labels = {}
+    #@   if hasattr(data.values.deliverable.metadata, "labels"):
+    #@     labels.update(data.values.deliverable.metadata.labels)
+    #@   end
+    #@   labels.update(fixed_values)
+    #@   return labels
+    #@ end
+
+    #@ def param(key):
+    #@   if not key in data.values.params:
+    #@     return None
+    #@   end
+    #@   return data.values.params[key]
+    #@ end
+
+    #@ if hasattr(data.values.deliverable.spec.source, "git"):
+    apiVersion: source.toolkit.fluxcd.io/v1beta1
+    kind: GitRepository
+    metadata:
+      name: #@ data.values.deliverable.metadata.name + "-delivery"
+      labels: #@ merge_labels({ "app.kubernetes.io/component": "source" })
+    spec:
+      interval: 1m0s
+      url: #@ data.values.deliverable.spec.source.git.url
+      ref: #@ data.values.deliverable.spec.source.git.ref
+      gitImplementation: #@ data.values.params.gitImplementation
+      ignore: |
+        !.git
+      #@ if/end param("gitops_ssh_secret"):
+      secretRef:
+        name: #@ param("gitops_ssh_secret")
+    #@ end
+
+    #@ if hasattr(data.values.deliverable.spec.source, "image"):
+    apiVersion: source.apps.tanzu.vmware.com/v1alpha1
+    kind: ImageRepository
+    metadata:
+      name: #@ data.values.deliverable.metadata.name + "-delivery"
+      labels: #@ merge_labels({ "app.kubernetes.io/component": "source" })
+    spec:
+      serviceAccount: #@ data.values.params.serviceAccount
+      interval: 1m0s
+      image: #@ data.values.deliverable.spec.source.image
+    #@ end

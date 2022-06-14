@@ -1,0 +1,40 @@
+#@ load("@ytt:data", "data")
+
+#@ if/end "image-provider-template" not in data.values.excluded_templates:
+---
+apiVersion: carto.run/v1alpha1
+kind: ClusterImageTemplate
+metadata:
+  name: image-provider-template
+spec:
+  params:
+    - name: serviceAccount
+      default: default
+
+  imagePath: .status.artifact.revision
+
+  healthRule:
+    singleConditionType: Ready
+
+  ytt: |
+    #@ load("@ytt:data", "data")
+
+    #@ def merge_labels(fixed_values):
+    #@   labels = {}
+    #@   if hasattr(data.values.workload.metadata, "labels"):
+    #@     labels.update(data.values.workload.metadata.labels)
+    #@   end
+    #@   labels.update(fixed_values)
+    #@   return labels
+    #@ end
+
+    ---
+    apiVersion: source.apps.tanzu.vmware.com/v1alpha1
+    kind: ImageRepository
+    metadata:
+      name: #@ data.values.workload.metadata.name
+      labels: #@ merge_labels({ "app.kubernetes.io/component": "image" })
+    spec:
+      image: #@ data.values.workload.spec.image
+      interval: 1m0s
+      serviceAccountName: #@ data.values.params.serviceAccount

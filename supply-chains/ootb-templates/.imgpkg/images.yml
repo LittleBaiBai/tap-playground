@@ -1,0 +1,28 @@
+---
+apiVersion: imgpkg.carvel.dev/v1alpha1
+images:
+- annotations:
+    kbld.carvel.dev/id: gcr.io/kaniko-project/executor@sha256:07ccf302c19ddd6f83c4dd21109833b7d16b5621b241d022442f11dfa0414d76
+  image: registry.tanzu.vmware.com/tanzu-application-platform/tap-packages@sha256:07ccf302c19ddd6f83c4dd21109833b7d16b5621b241d022442f11dfa0414d76
+- annotations:
+    kbld.carvel.dev/id: ghcr.io/jenkins-x/jx-scm
+    kbld.carvel.dev/origins: |
+      - resolved:
+          tag: latest
+          url: ghcr.io/jenkins-x/jx-scm
+  image: registry.tanzu.vmware.com/tanzu-application-platform/tap-packages@sha256:5a57dc4d956af9c9bc1a4f222e754ee9e96af5f425b109bccae4fd81adc8d96a
+- annotations:
+    kbld.carvel.dev/id: harbor-repo.vmware.com/dockerhub-proxy-cache/paketobuildpacks/build:base-cnb
+    kbld.carvel.dev/origins: |
+      - resolved:
+          tag: base-cnb
+          url: harbor-repo.vmware.com/dockerhub-proxy-cache/paketobuildpacks/build:base-cnb
+  image: registry.tanzu.vmware.com/tanzu-application-platform/tap-packages@sha256:b5481e6fcdad8ffa6abc62f09baf7a88b7d2358f39050652884dafe5c60825f5
+- annotations:
+    kbld.carvel.dev/id: harbor-repo.vmware.com/kontinue/config-writer
+    kbld.carvel.dev/origins: |
+      - resolved:
+          tag: latest
+          url: harbor-repo.vmware.com/kontinue/config-writer
+  image: registry.tanzu.vmware.com/tanzu-application-platform/tap-packages@sha256:e5e961933dfc7406d708c88b3226d7fe79266a58b75e2de93ca640ccd310f78d
+kind: ImagesLock
