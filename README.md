@@ -29,5 +29,8 @@ TODO:
 - [x] Consume Workload annotations in this Tekton task
 - [x] Use that task in a custom supply chain
 - [ ] Call TAP GUI url in the task
+- [x] Try out ImmediateEntityProvider with backstage
 - [ ] Securing entity provider endpoint
-- [ ]
+- [ ] How to infer Lifecycle from delivery pipeline? Annotation?
+- [ ] What do we put in Team? Annotation?
+- [x] Assume we don't need tags for now?
