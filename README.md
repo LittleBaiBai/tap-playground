@@ -13,6 +13,7 @@ imgpkg pull -b (kubectl get app $SUPPLY_CHAIN_PACKAGE -n tap-install -o jsonpath
 Guide to modify existing supply chain: <https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-scc-authoring-supply-chains.html>
 
 Writing a Tekton task: <https://tekton.dev/docs/pipelines/taskruns/>
+Apply the new ClusterTask: `kubectl apply -f supply-chains/api-entity-task.yaml`
 
 Apply the new Supply Chain template: `kubectl apply -f supply-chains/api-entity-template.yaml`
 
@@ -23,6 +24,7 @@ Create a sample workload: ``
 TODO:
 
 - [ ] Figure out where does httpproxy gets created and how to get a hold of that URL
-- [ ] Create a Tekton task in templates to make a POST call to httpbin
+- [x] Create a Tekton task in templates to make a POST call to httpbin
 - [ ] Consume Workload annotations in this Tekton task
-- [ ] Use that task in a custom supply chain
+- [x] Use that task in a custom supply chain
+- [ ] Call TAP GUI url in the task
