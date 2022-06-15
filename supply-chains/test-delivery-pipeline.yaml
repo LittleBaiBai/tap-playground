@@ -1,0 +1,37 @@
+apiVersion: carto.run/v1alpha1
+kind: ClusterDelivery
+metadata:
+  name: api-delivery
+spec:
+  selector:
+    app.tanzu.vmware.com/deliverable-type: web
+    app.tanzu.vmware.com/register-api: "true"
+
+  resources:
+    - name: source-provider
+      templateRef:
+        kind: ClusterSourceTemplate
+        name: delivery-source-template
+      params:
+        - name: serviceAccount
+          value: default # #@ data.values.service_account
+        - name: gitImplementation
+          value: go-git # #@ data.values.git_implementation
+
+    - name: register-api
+      templateRef:
+        kind: ClusterTemplate
+        name: api-entity-template
+      params:
+        - name: serviceAccount
+          value: default # #@ data.values.service_account
+
+    - name: deployer
+      templateRef:
+        kind: ClusterDeploymentTemplate
+        name: app-deploy
+      params:
+        - name: serviceAccount
+          value: default # #@ data.values.service_account
+      deployment:
+        resource: source-provider
