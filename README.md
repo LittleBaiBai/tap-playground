@@ -20,7 +20,7 @@ Apply the new Supply Chain template: `kubectl apply -f supply-chains/api-entity-
 
 Apply the new delivery pipeline: `kubectl apply -f supply-chains/test-delivery-pipeline.yaml`
 
-Create a sample workload: ``
+Create a sample workload: `tanzu apps workload create -f supply-chains/test-workload.yaml -y`
 
 TODO:
 
@@ -28,7 +28,7 @@ TODO:
 - [x] Create a Tekton task in templates to make a POST call to httpbin
 - [x] Consume Workload annotations in this Tekton task
 - [x] Use that task in a custom supply chain
-- [ ] Call TAP GUI url in the task
+- [x] Call TAP GUI url in the task
 - [x] Try out ImmediateEntityProvider with backstage
 - [ ] Securing entity provider endpoint
 - [ ] How to infer Lifecycle from delivery pipeline? Annotation?

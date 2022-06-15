@@ -18,14 +18,6 @@ spec:
         - name: gitImplementation
           value: go-git # #@ data.values.git_implementation
 
-    - name: register-api
-      templateRef:
-        kind: ClusterTemplate
-        name: api-entity-template
-      params:
-        - name: serviceAccount
-          value: default # #@ data.values.service_account
-
     - name: deployer
       templateRef:
         kind: ClusterDeploymentTemplate
@@ -35,3 +27,11 @@ spec:
           value: default # #@ data.values.service_account
       deployment:
         resource: source-provider
+
+    - name: register-api
+      templateRef:
+        kind: ClusterTemplate
+        name: api-entity-template
+      params:
+        - name: serviceAccount
+          value: default # #@ data.values.service_account

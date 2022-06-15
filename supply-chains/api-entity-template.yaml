@@ -16,6 +16,7 @@ spec:
 
   ytt: |
     #@ load("@ytt:data", "data")
+    #@ load("@ytt:json", "json")
 
     #@ def merge_labels(fixed_values):
     #@   labels = {}
@@ -45,6 +46,10 @@ spec:
           kind: ClusterTask
           name: api-entity-register
         params:
+          - name: tap_values
+            value: #@ json.encode(data.values)
+          - name: tap_gui_url
+            value: http://tap-gui.tap-testing-gke.tapdemo.vmware.com
           - name: workload_name
             value: #@ data.values.workload.metadata.name
           - name: workload_namespace

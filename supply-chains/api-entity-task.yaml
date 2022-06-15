@@ -11,10 +11,12 @@ spec:
   description: |-
     a task that generates and registers API entity based on annotations from a Workload.
   params:
-    # - name: tap_gui_catalog_api
-    #   type: string
-    #   description: >
-    #     url of TAP GUI catalog API
+    - name: tap_values
+      type: string
+    - name: tap_gui_url
+      type: string
+      description: >
+        url of TAP GUI
     - name: workload_name
       type: string
       description: name of the workload
@@ -35,7 +37,12 @@ spec:
 
         cd `mktemp -d`
 
+        echo $(params.tap_values)
+
         # kubectl get ksvc $(params.workload_name) -n $(params.workload_namespace)
+        # kn service $(params.workload_name) -n $(params.workload_namespace) -o url
+        # data.values.deployment.url???
+        # tap_gui_url=$(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .tap_gui.app_config.backend.baseUrl)
 
         cat << EOF | cat > api.yaml
         ---
@@ -56,5 +63,4 @@ spec:
             \$text: https://github.com/APIs-guru/openapi-directory/blob/dab6854d4d599aafb0eb36e6c7ae1fe0c37509b7/APIs/spotify.com/2021.4.2/openapi.yaml # todo: substitute to <workload_url>/openapi
         EOF
 
-        cat api.yaml
-        curl -d @api.yaml -X POST https://httpbin.org/post -H "Content-type: text/x-yaml"
+        curl -d @api.yaml -X POST $(params.tap_gui_url)/api/catalog/immediate/entities -H "Content-type: text/x-yaml"
