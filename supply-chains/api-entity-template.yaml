@@ -46,6 +46,6 @@ spec:
           name: api-entity-register
         params:
           - name: workload_name
-            value: data.values.workload.metadata.name
+            value: #@ data.values.workload.metadata.name
           - name: workload_namespace
-            value: data.values.workload.metadata.namespace
+            value: #@ data.values.workload.metadata.namespace

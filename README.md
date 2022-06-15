@@ -25,6 +25,6 @@ TODO:
 
 - [ ] Figure out where does httpproxy gets created and how to get a hold of that URL
 - [x] Create a Tekton task in templates to make a POST call to httpbin
-- [ ] Consume Workload annotations in this Tekton task
+- [x] Consume Workload annotations in this Tekton task
 - [x] Use that task in a custom supply chain
 - [ ] Call TAP GUI url in the task

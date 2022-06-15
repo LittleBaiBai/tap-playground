@@ -35,13 +35,15 @@ spec:
 
         cd `mktemp -d`
 
+        # kubectl get ksvc $(params.workload_name) -n $(params.workload_namespace)
+
         cat << EOF | cat > api.yaml
         ---
         apiVersion: backstage.io/v1alpha1
         kind: API
         metadata:
-          name: $(params.workload_name) # TODO: does it work?
-          namespace: $(params.workload_namespace) # TODO: does it work?
+          name: $(params.workload_name)
+          namespace: $(params.workload_namespace)
           description: The Spotify web API
           tags:
             - spotify
@@ -55,5 +57,4 @@ spec:
         EOF
 
         cat api.yaml
-
         curl -d @api.yaml -X POST https://httpbin.org/post -H "Content-type: text/x-yaml"
