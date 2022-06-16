@@ -48,9 +48,13 @@ spec:
         params:
           - name: tap_values
             value: #@ json.encode(data.values)
+          - name: cnrs_domain_name
+            value: tap-testing-api-entity.tapdemo.vmware.com
           - name: tap_gui_url
-            value: http://tap-gui.tap-testing-gke.tapdemo.vmware.com
+            value: http://tap-gui.tap-testing-api-entity.tapdemo.vmware.com
           - name: workload_name
             value: #@ data.values.workload.metadata.name
           - name: workload_namespace
             value: #@ data.values.workload.metadata.namespace
+          - name: openapi_endpoint
+            value: "/v3/api-docs"

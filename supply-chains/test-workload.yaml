@@ -3,15 +3,16 @@ kind: Workload
 metadata:
   name: petclinic-api-entity
   labels:
-    apps.tanzu.vmware.com/workload-type: web
+    apps.tanzu.vmware.com/workload-type: api-provider
     apps.kubernetes.io/name: spring-petclinic
     apps.tanzu.vmware.com/has-tests: "true"
     app.kubernetes.io/part-of: spring-petclinic
     app.tanzu.vmware.com/register-api: "true"
+  annotations:
+    openapi-spec-endpoint: "/v3/api-docs"
 spec:
   source:
     git:
-      url: https://github.com/sample-accelerators/spring-petclinic.git
+      url: https://github.com/LittleBaiBai/spring-petclinic.git
       ref:
-        branch: main
-        tag: tap-1.1
+        branch: accelerator

@@ -13,6 +13,8 @@ spec:
   params:
     - name: tap_values
       type: string
+    - name: cnrs_domain_name
+      type: string
     - name: tap_gui_url
       type: string
       description: >
@@ -23,6 +25,8 @@ spec:
     - name: workload_namespace
       type: string
       description: namespace of the workload
+    - name: openapi_endpoint
+      type: string
   steps:
     - name: main
       image: ellerbrock/alpine-bash-curl-ssl # harbor-repo.vmware.com/dockerhub-proxy-cache/curlimages/curl
@@ -39,11 +43,6 @@ spec:
 
         echo $(params.tap_values)
 
-        # kubectl get ksvc $(params.workload_name) -n $(params.workload_namespace)
-        # kn service $(params.workload_name) -n $(params.workload_namespace) -o url
-        # data.values.deployment.url???
-        # tap_gui_url=$(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .tap_gui.app_config.backend.baseUrl)
-
         cat << EOF | cat > api.yaml
         ---
         apiVersion: backstage.io/v1alpha1
@@ -58,9 +57,11 @@ spec:
         spec:
           type: openapi
           lifecycle: experimental # how can we infer lifecycle
-          owner: team-a # where should we get the owner from
+          owner: default-team # where should we get the owner from
           definition:
-            \$text: https://github.com/APIs-guru/openapi-directory/blob/dab6854d4d599aafb0eb36e6c7ae1fe0c37509b7/APIs/spotify.com/2021.4.2/openapi.yaml # todo: substitute to <workload_url>/openapi
+            \$text: http://$(params.workload_name).$(params.workload_namespace).$(params.cnrs_domain_name)$(params.openapi_endpoint)
         EOF
 
-        curl -d @api.yaml -X POST $(params.tap_gui_url)/api/catalog/immediate/entities -H "Content-type: text/x-yaml"
+        cat api.yaml
+
+        curl -d @api.yaml -X POST $(params.tap_gui_url)/api/catalog/immediate/entities -H "Content-type: text/x-yaml" -v

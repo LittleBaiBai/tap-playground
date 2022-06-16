@@ -14,13 +14,18 @@ Guide to modify existing supply chain: <https://docs.vmware.com/en/Tanzu-Applica
 
 Writing a Tekton task: <https://tekton.dev/docs/pipelines/taskruns/>
 
-Apply the new ClusterTask: `kubectl apply -f supply-chains/api-entity-task.yaml`
+To try the new stuff on a full profile TAP cluster:
 
-Apply the new Supply Chain template: `kubectl apply -f supply-chains/api-entity-template.yaml`
+```
+kubectl apply -f supply-chains/api-entity-task.yaml
+kubectl apply -f supply-chains/api-entity-template.yaml
+kubectl apply -f supply-chains/test-cluster-delivery.yaml
+kubectl apply -f supply-chains/deliverable-with-annotations-template.yaml
+kubectl apply -f supply-chains/test-supply-chain.yaml
 
-Apply the new delivery pipeline: `kubectl apply -f supply-chains/test-delivery-pipeline.yaml`
-
-Create a sample workload: `tanzu apps workload create -f supply-chains/test-workload.yaml -y`
+tanzu apps workload delete petclinic-api-entity -y
+tanzu apps workload create -f supply-chains/test-workload.yaml -y
+```
 
 TODO:
 
