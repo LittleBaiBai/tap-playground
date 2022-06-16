@@ -4,7 +4,7 @@ metadata:
   name: api-delivery
 spec:
   selector:
-    app.tanzu.vmware.com/deliverable-type: api-provider
+    app.tanzu.vmware.com/deliverable-type: web
     app.tanzu.vmware.com/register-api: "true"
 
   resources:
@@ -35,8 +35,6 @@ spec:
       sources:
         - resource: deployer
           name: deployer
-        - resource: source-provider
-          name: source-provider
       params:
         - name: serviceAccount
           value: default # #@ data.values.service_account

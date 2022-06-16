@@ -41,7 +41,7 @@ spec:
 
         cd `mktemp -d`
 
-        echo $(params.tap_values)
+        # echo $(params.tap_values)
 
         cat << EOF | cat > api.yaml
         ---

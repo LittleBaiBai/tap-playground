@@ -82,7 +82,7 @@ spec:
     - name: deliverable
       templateRef:
         kind: ClusterTemplate
-        name: deliverable-template
+        name: deliverable-with-annotations-template
       params:
         - name: registry
           value: #@ data.values.registry

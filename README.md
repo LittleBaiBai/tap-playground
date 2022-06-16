@@ -21,7 +21,14 @@ kubectl apply -f supply-chains/api-entity-task.yaml
 kubectl apply -f supply-chains/api-entity-template.yaml
 kubectl apply -f supply-chains/test-cluster-delivery.yaml
 kubectl apply -f supply-chains/deliverable-with-annotations-template.yaml
-kubectl apply -f supply-chains/test-supply-chain.yaml
+
+ytt \
+  --ignore-unknown-comments \
+  --file supply-chains/ootb-supply-chain-testing-scanning/config \
+  --file supply-chains/ootb-supply-chain-testing-scanning/values.yaml \
+  --data-value registry.server=(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.repository) \
+  --data-value registry.repository=(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.server) |
+  kubectl apply -f-
 
 tanzu apps workload delete petclinic-api-entity -y
 tanzu apps workload create -f supply-chains/test-workload.yaml -y

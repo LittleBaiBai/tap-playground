@@ -27,6 +27,13 @@ spec:
     #@   return labels
     #@ end
 
+    #@ def annotation(key):
+    #@   if not key in data.values.workload.metadata.annotations:
+    #@     return "/openapi"
+    #@   end
+    #@   return data.values.workload.metadata.annotations[key]
+    #@ end
+
     ---
     apiVersion: carto.run/v1alpha1
     kind: Runnable
@@ -57,4 +64,4 @@ spec:
           - name: workload_namespace
             value: #@ data.values.workload.metadata.namespace
           - name: openapi_endpoint
-            value: "/v3/api-docs"
+            value: #@ annotation("openapi-spec-endpoint")

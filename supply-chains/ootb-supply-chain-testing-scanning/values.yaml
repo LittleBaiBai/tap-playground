@@ -17,7 +17,7 @@ gitops:
   user_name: supplychain
   user_email: supplychain
   commit_message: supplychain@cluster.local
-  ssh_secret: git-ssh
+  ssh_secret: ""
   commit_strategy: direct
   server_address:
   repository_owner:
