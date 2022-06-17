@@ -1,0 +1,16 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: petclinic-api-entity
+  namespace: my-apps
+  description: The Spotify web API
+  tags:
+    - spotify
+    - rest
+spec:
+  type: openapi
+  lifecycle: experimental # how can we infer lifecycle
+  owner: default-team # where should we get the owner from
+  definition:
+    "$text": "http://petclinic-api-entity.my-apps.tap-testing-api-entity.tapdemo.vmware.com/v3/api-docs"

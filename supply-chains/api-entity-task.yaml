@@ -59,9 +59,9 @@ spec:
           lifecycle: experimental # how can we infer lifecycle
           owner: default-team # where should we get the owner from
           definition:
-            \$text: http://$(params.workload_name).$(params.workload_namespace).$(params.cnrs_domain_name)$(params.openapi_endpoint)
+            '\$text': 'http://$(params.workload_name).$(params.workload_namespace).$(params.cnrs_domain_name)$(params.openapi_endpoint)'
         EOF
 
         cat api.yaml
 
-        curl -d @api.yaml -X POST $(params.tap_gui_url)/api/catalog/immediate/entities -H "Content-type: text/x-yaml" -v
+        curl -d @api.yaml $(params.tap_gui_url)/api/catalog/immediate/entities -H "Content-type: text/x-yaml" -v

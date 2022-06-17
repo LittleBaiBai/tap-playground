@@ -26,8 +26,8 @@ ytt \
   --ignore-unknown-comments \
   --file supply-chains/ootb-supply-chain-testing-scanning/config \
   --file supply-chains/ootb-supply-chain-testing-scanning/values.yaml \
-  --data-value registry.server=(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.repository) \
-  --data-value registry.repository=(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.server) |
+  --data-value registry.server=(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.server) \
+  --data-value registry.repository=(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.repository) |
   kubectl apply -f-
 
 tanzu apps workload delete petclinic-api-entity -y
@@ -36,7 +36,7 @@ tanzu apps workload create -f supply-chains/test-workload.yaml -y
 
 TODO:
 
-- [ ] Figure out where does httpproxy gets created and how to get a hold of that URL
+- [x] Figure out where does httpproxy gets created and how to get a hold of that URL
 - [x] Create a Tekton task in templates to make a POST call to httpbin
 - [x] Consume Workload annotations in this Tekton task
 - [x] Use that task in a custom supply chain
