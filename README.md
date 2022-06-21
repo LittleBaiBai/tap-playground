@@ -10,15 +10,19 @@ set SUPPLY_CHAIN_PACKAGE ootb-supply-chain-testing-scanning
 imgpkg pull -b (kubectl get app $SUPPLY_CHAIN_PACKAGE -n tap-install -o jsonpath={.spec.fetch[0].imgpkgBundle.image}) -o supply-chains/$SUPPLY_CHAIN_PACKAGE
 ```
 
-Guide to modify existing supply chain: <https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-scc-authoring-supply-chains.html>
+Guide to modify existing supply chain: <https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-scc-authoring-supply-chains.html>. The `ootb-supply-chain-testing-scanning` supply chain in this repo is already modified to deliver what we want. If you run the above command again, you might want to revert some changes so the supply chain would continue to work for our use case.
 
 Writing a Tekton task: <https://tekton.dev/docs/pipelines/taskruns/>
 
-To try the new stuff on a full profile TAP cluster:
+To try the new stuff on a full profile TAP cluster in Fish shell:
 
-```
+```fish
+mkdir .tmp
+set domain_name (kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .cnrs.domain_name)
+sed "s/tap-testing-api-entity/$domain_name/g" supply-chains/api-entity-template.yaml > .tmp/api-entity-template.yaml
+
 kubectl apply -f supply-chains/api-entity-task.yaml
-kubectl apply -f supply-chains/api-entity-template.yaml
+kubectl apply -f .tmp/api-entity-template.yaml
 kubectl apply -f supply-chains/test-cluster-delivery.yaml
 kubectl apply -f supply-chains/deliverable-with-annotations-template.yaml
 
@@ -28,6 +32,30 @@ ytt \
   --file supply-chains/ootb-supply-chain-testing-scanning/values.yaml \
   --data-value registry.server=(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.server) \
   --data-value registry.repository=(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.repository) |
+  kubectl apply -f-
+
+tanzu apps workload delete petclinic-api-entity -y
+tanzu apps workload create -f supply-chains/test-workload.yaml -y
+```
+
+For Bash users:
+
+```bash
+mkdir .tmp
+export domain_name=$(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .cnrs.domain_name)
+sed "s/tap-testing-api-entity/$domain_name/g" supply-chains/api-entity-template.yaml > .tmp/api-entity-template.yaml
+
+kubectl apply -f supply-chains/api-entity-task.yaml
+kubectl apply -f .tmp/api-entity-template.yaml
+kubectl apply -f supply-chains/test-cluster-delivery.yaml
+kubectl apply -f supply-chains/deliverable-with-annotations-template.yaml
+
+ytt \
+  --ignore-unknown-comments \
+  --file supply-chains/ootb-supply-chain-testing-scanning/config \
+  --file supply-chains/ootb-supply-chain-testing-scanning/values.yaml \
+  --data-value registry.server=$(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.server) \
+  --data-value registry.repository=$(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.repository) |
   kubectl apply -f-
 
 tanzu apps workload delete petclinic-api-entity -y
