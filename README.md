@@ -17,9 +17,9 @@ Writing a Tekton task: <https://tekton.dev/docs/pipelines/taskruns/>
 To try the new stuff on a full profile TAP cluster in Fish shell:
 
 ```fish
-mkdir .tmp
+mkdir -p .tmp
 set domain_name (kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .cnrs.domain_name)
-sed "s/tap-testing-api-entity/$domain_name/g" supply-chains/api-entity-template.yaml > .tmp/api-entity-template.yaml
+sed "s/tap-testing-api-entity.tapdemo.vmware.com/$domain_name/g" supply-chains/api-entity-template.yaml > .tmp/api-entity-template.yaml
 
 kubectl apply -f supply-chains/api-entity-task.yaml
 kubectl apply -f .tmp/api-entity-template.yaml
@@ -41,9 +41,9 @@ tanzu apps workload create -f supply-chains/test-workload.yaml -y
 For Bash users:
 
 ```bash
-mkdir .tmp
+mkdir -p .tmp
 export domain_name=$(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .cnrs.domain_name)
-sed "s/tap-testing-api-entity/$domain_name/g" supply-chains/api-entity-template.yaml > .tmp/api-entity-template.yaml
+sed "s/tap-testing-api-entity.tapdemo.vmware.com/$domain_name/g" supply-chains/api-entity-template.yaml > .tmp/api-entity-template.yaml
 
 kubectl apply -f supply-chains/api-entity-task.yaml
 kubectl apply -f .tmp/api-entity-template.yaml
