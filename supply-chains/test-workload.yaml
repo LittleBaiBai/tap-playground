@@ -2,6 +2,7 @@ apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: petclinic-api-entity
+  namespace: my-apps
   labels:
     apps.tanzu.vmware.com/workload-type: web
     apps.kubernetes.io/name: spring-petclinic

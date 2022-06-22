@@ -34,7 +34,7 @@ ytt \
   --data-value registry.repository=(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.repository) |
   kubectl apply -f-
 
-tanzu apps workload delete petclinic-api-entity -y
+tanzu apps workload delete petclinic-api-entity -n my-apps -y
 tanzu apps workload create -f supply-chains/test-workload.yaml -y
 ```
 
