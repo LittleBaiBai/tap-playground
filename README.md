@@ -1,20 +1,12 @@
 # tap-playground
 
-Get existing supply chain installed (fish shell commands):
+A POC for autoregistering API entity in Backstage for a deployed workload through custom Tekton task.
 
-```
-set SUPPLY_CHAIN_PACKAGE ootb-delivery-basic
-set SUPPLY_CHAIN_PACKAGE ootb-templates
-set SUPPLY_CHAIN_PACKAGE ootb-supply-chain-testing-scanning
+## Try this out
 
-imgpkg pull -b (kubectl get app $SUPPLY_CHAIN_PACKAGE -n tap-install -o jsonpath={.spec.fetch[0].imgpkgBundle.image}) -o supply-chains/$SUPPLY_CHAIN_PACKAGE
-```
+To try the new stuff on a full profile TAP cluster (Fish shell):
 
-Guide to modify existing supply chain: <https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-scc-authoring-supply-chains.html>. The `ootb-supply-chain-testing-scanning` supply chain in this repo is already modified to deliver what we want. If you run the above command again, you might want to revert some changes so the supply chain would continue to work for our use case.
-
-Writing a Tekton task: <https://tekton.dev/docs/pipelines/taskruns/>
-
-To try the new stuff on a full profile TAP cluster in Fish shell:
+First install a custom version of TAP GUI that includes a custom entity provider following the instruction in [this repo](https://gitlab.eng.vmware.com/shrutii/pstar-backstage-poc-api-entity).
 
 ```fish
 mkdir -p .tmp
@@ -62,7 +54,23 @@ tanzu apps workload delete petclinic-api-entity -y
 tanzu apps workload create -f supply-chains/test-workload.yaml -y
 ```
 
-TODO:
+## Useful commands and links
+
+Get existing supply chain installed (fish shell commands):
+
+```fish
+set SUPPLY_CHAIN_PACKAGE ootb-delivery-basic
+set SUPPLY_CHAIN_PACKAGE ootb-templates
+set SUPPLY_CHAIN_PACKAGE ootb-supply-chain-testing-scanning
+
+imgpkg pull -b (kubectl get app $SUPPLY_CHAIN_PACKAGE -n tap-install -o jsonpath={.spec.fetch[0].imgpkgBundle.image}) -o supply-chains/$SUPPLY_CHAIN_PACKAGE
+```
+
+Guide to modify existing supply chain: <https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-scc-authoring-supply-chains.html>. The `ootb-supply-chain-testing-scanning` supply chain in this repo is already modified to deliver what we want. If you run the above command again, you might want to revert some changes so the supply chain would continue to work for our use case.
+
+Writing a Tekton task: <https://tekton.dev/docs/pipelines/taskruns/>
+
+## TODOs
 
 - [x] Figure out where does httpproxy gets created and how to get a hold of that URL
 - [x] Create a Tekton task in templates to make a POST call to httpbin
