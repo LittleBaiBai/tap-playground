@@ -65,3 +65,5 @@ spec:
             value: #@ data.values.workload.metadata.namespace
           - name: openapi_endpoint
             value: #@ annotation("openapi-spec-endpoint")
+          - name: server_url
+            value: #@ annotation("server-url")

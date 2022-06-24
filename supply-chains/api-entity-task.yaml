@@ -27,6 +27,9 @@ spec:
       description: namespace of the workload
     - name: openapi_endpoint
       type: string
+    - name: server_url
+      type: string
+      description: Server URL to define in the OpenAPI Spec generated
   steps:
     - name: main
       image: shrutii300/alpine-bash-curl-ssl
@@ -41,10 +44,19 @@ spec:
 
         cd `mktemp -d`
 
+        echo "ClusterTask/api-entity-register: Executing API Entity task"
+        # Define OpenAPI Server url with default
+        export openapi_server='$(params.server_url)'
+        if [ -z "$openapi_server" ]; then
+          export openapi_server='$(params.workload_name).$(params.workload_namespace)'
+        fi
+        echo "ClusterTask/api-entity-register: '$openapi_server' openAPI Server "
+        
         export openapi_definition='http://$(params.workload_name).$(params.workload_namespace).$(params.cnrs_domain_name)$(params.openapi_endpoint)'
-        echo $(openapi_definition)
-        curl -v --retry 10 --fail --retry-all-errors --retry-delay 60 -s -o /dev/null "$openapi_definition"
+        echo $openapi_definition
+        export openapi_spec=$(curl -H"X-Forwarded-Host: $openapi_server" --retry 10 --fail --retry-all-errors --retry-delay 60 -s "$openapi_definition")
 
+        echo "ClusterTask/api-entity-register: OpenAPI Spec found $openapi_spec"
         cat << EOF | cat > api.yaml
         ---
         apiVersion: backstage.io/v1alpha1
@@ -60,8 +72,8 @@ spec:
           type: openapi
           lifecycle: experimental # how can we infer lifecycle
           owner: default-team # where should we get the owner from
-          definition:
-            '\$text': '$openapi_definition'
+          definition: |
+            $openapi_spec
         EOF
 
         cat api.yaml
