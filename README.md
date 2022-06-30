@@ -33,12 +33,12 @@ tanzu apps workload create -f supply-chains/test-workload.yaml -y
 For Bash users:
 
 ```bash
-mkdir -p .tmp
+mkdir -p supply-chains/.tmp
 export domain_name=$(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .cnrs.domain_name)
 sed "s/tap-testing-api-entity.tapdemo.vmware.com/$domain_name/g" supply-chains/api-entity-template.yaml > .tmp/api-entity-template.yaml
 
 kubectl apply -f supply-chains/api-entity-task.yaml
-kubectl apply -f .tmp/api-entity-template.yaml
+kubectl apply -f supply-chains/.tmp/api-entity-template.yaml
 kubectl apply -f supply-chains/test-cluster-delivery.yaml
 kubectl apply -f supply-chains/deliverable-with-annotations-template.yaml
 
@@ -53,6 +53,25 @@ ytt \
 tanzu apps workload delete petclinic-api-entity -y
 tanzu apps workload create -f supply-chains/test-workload.yaml -y
 ```
+
+## Custom Resource Supply Chain
+
+```bash
+kubectl apply -f custom-resource-supply-chains/custom-resource-template.yaml
+kubectl apply -f custom-resource-supply-chains/cluster-delivery.yaml
+
+ytt \
+  --ignore-unknown-comments \
+  --file custom-resource-supply-chains/ootb-supply-chain-testing-scanning/config \
+  --file custom-resource-supply-chains/ootb-supply-chain-testing-scanning/values.yaml \
+  --data-value registry.server=$(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.server) \
+  --data-value registry.repository=$(kubectl get secret tap-values -n tap-install -o jsonpath="{.data['tap-values\.yaml']}" | base64 -d | yq .ootb_supply_chain_testing_scanning.registry.repository) |
+  kubectl apply -f-
+
+tanzu apps workload delete petclinic-api-custom-resource -y
+tanzu apps workload create -f custom-resource-supply-chains/test-workload.yaml -y
+```
+
 
 ## Useful commands and links
 
