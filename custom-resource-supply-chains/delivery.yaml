@@ -1,7 +1,7 @@
 apiVersion: carto.run/v1alpha1
 kind: ClusterDelivery
 metadata:
-  name: api-cr-delivery
+  name: crd-delivery
 spec:
   selector:
     app.tanzu.vmware.com/deliverable-type: web
@@ -14,9 +14,9 @@ spec:
         name: delivery-source-template
       params:
         - name: serviceAccount
-          value: default # #@ data.values.service_account
+          value: default
         - name: gitImplementation
-          value: go-git # #@ data.values.git_implementation
+          value: go-git
 
     - name: deployer
       templateRef:
@@ -24,6 +24,6 @@ spec:
         name: app-deploy
       params:
         - name: serviceAccount
-          value: default # #@ data.values.service_account
+          value: default
       deployment:
         resource: source-provider

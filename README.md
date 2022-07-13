@@ -57,8 +57,8 @@ tanzu apps workload create -f supply-chains/test-workload.yaml -y
 ## Custom Resource Supply Chain
 
 ```bash
-kubectl apply -f custom-resource-supply-chains/custom-resource-template.yaml
-kubectl apply -f custom-resource-supply-chains/cluster-delivery.yaml
+kubectl apply -f custom-resource-supply-chains/config-template.yaml
+kubectl apply -f custom-resource-supply-chains/delivery.yaml
 
 ytt \
   --ignore-unknown-comments \

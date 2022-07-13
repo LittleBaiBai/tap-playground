@@ -13,6 +13,8 @@ spec:
   params:
     - name: openapiSpecEndpoint
       value: "/v3/api-docs"
+    - name: apiOwner
+      value: team-petclinic
   source:
     git:
       url: https://github.com/LittleBaiBai/spring-petclinic.git

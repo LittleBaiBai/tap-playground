@@ -164,14 +164,6 @@ spec:
         - resource: image-scanner
           name: image
 
-    - name: api-custom-resource
-      templateRef:
-        kind: ClusterConfigTemplate
-        name: custom-resource-template
-      params:
-        - name: serviceAccount
-          value: #@ data.values.service_account
-
     - name: app-config
       templateRef:
         kind: ClusterConfigTemplate
