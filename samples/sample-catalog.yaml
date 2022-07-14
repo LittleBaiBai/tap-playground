@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: petclinic-components
+  description: A collection of components required by Spring Petclinic
+spec:
+  targets:
+    - ./sample-api-entity.yaml
+    - ./sample-api-entity-dev.yaml
+    - ./sample-api-entity-staging.yaml
+    - ./sample-group.yaml
+    - ./sample-component-entity.yaml
