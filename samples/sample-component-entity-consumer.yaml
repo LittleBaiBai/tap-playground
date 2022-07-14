@@ -3,6 +3,8 @@ kind: Component
 metadata:
   name: petclinic-app-woof
   description: Petclinic App Website
+  annotations:
+    "backstage.io/kubernetes-label-selector": "app.kubernetes.io/part-of=petclinic-server"
 spec:
   type: service
   lifecycle: different

@@ -10,7 +10,7 @@ metadata:
     - rest
 spec:
   type: openapi
-  lifecycle: experimental # how can we infer lifecycle
+  lifecycle: different
   owner: spring-devs
   definition: |
     openapi: "3.0.0"

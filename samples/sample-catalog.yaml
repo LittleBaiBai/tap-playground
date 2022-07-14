@@ -10,3 +10,5 @@ spec:
     - ./sample-api-entity-staging.yaml
     - ./sample-group.yaml
     - ./sample-component-entity.yaml
+    - ./sample-component-entity-consumer.yaml
+    - ./sample-system.yaml
