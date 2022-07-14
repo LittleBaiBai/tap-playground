@@ -10,5 +10,5 @@ spec:
   type: service
   lifecycle: different
   owner: spring-devs
-  system: petclinic-test
+  system: petclinic
   providesApis: ["petclinic-api-entity-foo"]

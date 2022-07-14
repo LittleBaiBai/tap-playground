@@ -11,7 +11,7 @@ metadata:
 spec:
   type: openapi
   lifecycle: different
-  system: petclinic-test
+  system: petclinic
   owner: spring-devs
   definition: |
     openapi: "3.0.0"
