@@ -12,6 +12,7 @@ spec:
   type: openapi
   lifecycle: staging
   owner: spring-devs
+  system: petclinic-test
   definition: |
     openapi: "3.0.0"
     info:

@@ -9,5 +9,5 @@ spec:
   type: service
   lifecycle: different
   owner: spring-devs
-  system: petclinic
+  system: petclinic-test
   consumesApis: ["petclinic-api-entity-foo"]
