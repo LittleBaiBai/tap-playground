@@ -11,4 +11,4 @@ spec:
   lifecycle: different
   owner: spring-devs
   system: petclinic
-  providesApis: ["petclinic-api-entity-foo"]
+  providesApis: ["petclinic-api-entity-staging", "petclinic-api-entity-dev"]

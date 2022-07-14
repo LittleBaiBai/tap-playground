@@ -2,7 +2,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: petclinic-api-entity-blah
+  name: petclinic-api-entity-dev
   namespace: my-apps
   description: The Spotify web API
   tags:
