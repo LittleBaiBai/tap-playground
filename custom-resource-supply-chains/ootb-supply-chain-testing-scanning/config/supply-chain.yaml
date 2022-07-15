@@ -8,7 +8,14 @@
 #@   if data.values.gitops.commit_strategy == "pull_request":
 #@     return "config-writer-and-pull-requester-template"
 #@   end
-#@   return "config-writer-template"
+#@   return "config-writer-template-2"
+#@ end
+
+#@ def merge_configs(val1, val2):
+#@   configs = {}
+#@   configs.update(val1)
+#@   configs.update(val2)
+#@   return configs
 #@ end
 
 ---
@@ -172,6 +179,14 @@ spec:
         - resource: config-provider
           name: config
 
+    - name: app-config-apifirst-crd
+      templateRef:
+        kind: ClusterConfigTemplate
+        name: config-template-apifirst-crd
+      configs:
+        - resource: config-provider
+          name: config
+
     - name: config-writer
       templateRef:
         kind: ClusterTemplate
@@ -184,3 +199,5 @@ spec:
       configs:
         - resource: app-config
           name: config
+        - resource: app-config-apifirst-crd
+          name: configz

@@ -59,6 +59,8 @@ tanzu apps workload create -f supply-chains/test-workload.yaml -y
 ```bash
 kubectl apply -f custom-resource-supply-chains/config-template.yaml
 kubectl apply -f custom-resource-supply-chains/delivery.yaml
+kubectl apply -f custom-resource-supply-chains/apifirst-config-template.yaml
+kubectl apply -f custom-resource-supply-chains/apifirst-config-writer-template.yaml
 
 ytt \
   --ignore-unknown-comments \

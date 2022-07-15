@@ -75,7 +75,6 @@ spec:
     #@ end
 
     #@ def delivery():
-    ---
     apiVersion: serving.knative.dev/v1
     kind: Service
     metadata:
@@ -135,16 +134,6 @@ spec:
     #@ end
     #@ end
 
-    #@ def crd():
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: #@ data.values.workload.metadata.name + '-our-crd' 
-      labels: #@ merge_labels({ "app.kubernetes.io/component": "run", "carto.run/workload-name": data.values.workload.metadata.name })
-    data:
-      color: pink
-    #@ end
-
     ---
     apiVersion: v1
     kind: ConfigMap
@@ -153,7 +142,6 @@ spec:
       labels: #@ merge_labels({ "app.kubernetes.io/component": "config" })
     data:
       delivery.yml: #@ yaml.encode(delivery())
-      crd.yml: #@ yaml.encode(crd())
       #@ if hasattr(data.values.workload.spec, "serviceClaims") and len(data.values.workload.spec.serviceClaims):
       serviceclaims.yml: #@ yaml.encode(claims())
       #@ end

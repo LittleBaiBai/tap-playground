@@ -1,0 +1,46 @@
+#@ load("@ytt:data", "data")
+
+#@ if/end "config-template" not in data.values.excluded_templates:
+---
+apiVersion: carto.run/v1alpha1
+kind: ClusterConfigTemplate
+metadata:
+  name: config-template-apifirst-crd
+spec:
+  configPath: .data
+
+  healthRule:
+    alwaysHealthy: {}
+
+  ytt: |
+    #@ load("@ytt:data", "data")
+    #@ load("@ytt:yaml", "yaml")
+    #@ load("@ytt:json", "json")
+
+    #@ def merge_labels(fixed_values):
+    #@   labels = {}
+    #@   if hasattr(data.values.workload.metadata, "labels"):
+    #@     labels.update(data.values.workload.metadata.labels)
+    #@   end
+    #@   labels.update(fixed_values)
+    #@   return labels
+    #@ end
+
+    #@ def crd():
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: #@ data.values.workload.metadata.name + '-our-crd' 
+      labels: #@ merge_labels({ "app.kubernetes.io/component": "run", "carto.run/workload-name": data.values.workload.metadata.name })
+    data:
+      color: pink
+    #@ end
+
+    ---
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: #@ data.values.workload.metadata.name + '-apifirst-crd'
+      labels: #@ merge_labels({ "app.kubernetes.io/component": "config" })
+    data:
+      crd.yml: #@ yaml.encode(crd())
