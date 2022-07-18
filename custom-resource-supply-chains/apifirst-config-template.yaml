@@ -7,8 +7,10 @@ kind: ClusterConfigTemplate
 metadata:
   name: config-template-apifirst-crd
 spec:
+  params:
+    - name: api-descriptor-data
+      default: not-me
   configPath: .data
-
   healthRule:
     alwaysHealthy: {}
 
@@ -43,4 +45,5 @@ spec:
       name: #@ data.values.workload.metadata.name + '-apifirst-crd'
       labels: #@ merge_labels({ "app.kubernetes.io/component": "config" })
     data:
+      this_is_a_test: #@ data.values.params["api-descriptor-data"]
       crd.yml: #@ yaml.encode(crd())

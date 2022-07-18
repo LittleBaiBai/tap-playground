@@ -1,0 +1,16 @@
+#@ load("@ytt:data", "data")
+---
+a: b
+b: #@ data.values.workload.spec.params
+
+sample: #@ data.values.workload.metadata.labels
+
+
+#@ def has_api()
+#@   for s in data.values.workload.spec.params :
+#@    if s.name == 'api-descriptor-data' :
+#@     return True
+#@   end
+#@ end
+
+test2: #@ has_api()

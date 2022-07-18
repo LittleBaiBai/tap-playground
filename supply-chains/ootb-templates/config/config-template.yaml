@@ -141,7 +141,10 @@ spec:
       name: #@ data.values.workload.metadata.name
       labels: #@ merge_labels({ "app.kubernetes.io/component": "config" })
     data:
-      delivery.yml: #@ yaml.encode(delivery())
+      delivery.yml: #@ yaml.encode(deliver y())
       #@ if hasattr(data.values.workload.spec, "serviceClaims") and len(data.values.workload.spec.serviceClaims):
+      serviceclaims.yml: #@ yaml.encode(claims())
+      #@ end
+      #@ if hasattr(data.values.params[]) ):
       serviceclaims.yml: #@ yaml.encode(claims())
       #@ end

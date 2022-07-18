@@ -15,6 +15,8 @@ spec:
       value: "/v3/api-docs"
     - name: apiOwner
       value: team-petclinic
+    - name: api-descriptor-data
+      value: me
   source:
     git:
       url: https://github.com/LittleBaiBai/spring-petclinic.git
