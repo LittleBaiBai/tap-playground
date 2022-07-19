@@ -11,12 +11,11 @@ metadata:
     app.tanzu.vmware.com/register-api: "true"
 spec:
   params:
-    - name: openapiSpecEndpoint
-      value: "/v3/api-docs"
-    - name: apiOwner
-      value: team-petclinic
     - name: api-descriptor-data
-      value: me
+      value: |
+        location: "/v3/api-docs"
+        apiOwner: team-petclinic
+        description: "A set of API endpoints to manage the resources within the petclinic app."
   source:
     git:
       url: https://github.com/LittleBaiBai/spring-petclinic.git
