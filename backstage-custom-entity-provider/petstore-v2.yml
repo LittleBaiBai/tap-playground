@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: petstore-v2-test
+  name: petstore-v2-host
   description: The petstore API
   tags:
     - store
@@ -19,8 +19,6 @@ spec:
   owner: team-c
   definition: |
     swagger: "2.0"
-    host: "petstore.swagger.io"
-    basePath: "/v2"
     info:
       description: "This is a sample server Petstore server.  You can find out more about\
         \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
@@ -34,6 +32,8 @@ spec:
       license:
         name: "Apache 2.0"
         url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    host: "petstore.swagger.io"
+    basePath: "/v2"
     tags:
     - name: "pet"
       description: "Everything about your Pets"
