@@ -16,6 +16,7 @@ metadata:
 spec:
   type: openapi
   lifecycle: experimental
+  owner: 
   definition: |
     swagger: "2.0"
     info:
