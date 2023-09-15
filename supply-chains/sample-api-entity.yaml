@@ -12,5 +12,96 @@ spec:
   type: openapi
   lifecycle: experimental # how can we infer lifecycle
   owner: team-a
-  definition:
-    '$text': 'http://petclinic-api-entity.my-apps.api-entity-registration-demo.tapdemo.vmware.com/v3/api-docs'
+  definition: |
+    components: {}
+    info:
+      title: Hello API
+      version: "1.0"
+    openapi: 3.0.1
+    paths:
+      /:
+        delete:
+          operationId: index
+          responses:
+            "200":
+              content:
+                '*/*':
+                  schema:
+                    type: string
+              description: said hello to world successfully.
+          summary: Say hello.
+          tags:
+          - Hello REST API
+        get:
+          operationId: index_4
+          responses:
+            "200":
+              content:
+                '*/*':
+                  schema:
+                    type: string
+              description: said hello to world successfully.
+          summary: Say hello.
+          tags:
+          - Hello REST API
+        head:
+          operationId: index_3
+          responses:
+            "200":
+              content:
+                '*/*':
+                  schema:
+                    type: string
+              description: said hello to world successfully.
+          summary: Say hello.
+          tags:
+          - Hello REST API
+        options:
+          operationId: index_1
+          responses:
+            "200":
+              content:
+                '*/*':
+                  schema:
+                    type: string
+              description: said hello to world successfully.
+          summary: Say hello.
+          tags:
+          - Hello REST API
+        patch:
+          operationId: index_5
+          responses:
+            "200":
+              content:
+                '*/*':
+                  schema:
+                    type: string
+              description: said hello to world successfully.
+          summary: Say hello.
+          tags:
+          - Hello REST API
+        post:
+          operationId: index_6
+          responses:
+            "200":
+              content:
+                '*/*':
+                  schema:
+                    type: string
+              description: said hello to world successfully.
+          summary: Say hello.
+          tags:
+          - Hello REST API
+        put:
+          operationId: index_2
+          responses:
+            "200":
+              content:
+                '*/*':
+                  schema:
+                    type: string
+              description: said hello to world successfully.
+          summary: Say hello.
+          tags:
+          - Hello REST API
+    
